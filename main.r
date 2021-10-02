@@ -12,7 +12,7 @@ colnames(data_corridors)[1] = "Sending.Countries.Name" # rename column because i
 
 data_corridors[data_corridors == ".."] = 0
 
-data_corridors[, 7:41] <- sapply(data_corridors[, 7:41], as.numeric)
+data_corridors[, 7:41] = sapply(data_corridors[, 7:41], as.numeric)
 data = data_corridors %>% filter(X2020Q3..YR2020Q3. != "..") %>%
   mutate('2011' = (X2011Q1..YR2011Q1. + X2011Q3..YR2011Q3.) / 2) %>%
   mutate('2012' = (X2012Q1..YR2012Q1. + X2012Q3..YR2012Q3.) / 2) %>%
