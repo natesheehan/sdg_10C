@@ -1,5 +1,4 @@
 # Librarys ----------------------------------------------------------------
-library(WDI)
 library(stringr)
 library(tidyverse)
 
@@ -9,6 +8,8 @@ tags = c(" 0-3%", " 3-5%", " 5-10%", "10% and above") # create tags for bin labe
 #### the data has been downloaded from: https://databank.worldbank.org/source/remittance-prices-worldwide-(corridors)
 data_corridors = read.csv("data/36d1ed87-9a2d-41da-8eac-c1c25d45fa65_Data.csv")
 colnames(data_corridors)[1] = "Sending.Countries.Name" # rename column because its called some funky shit
+
+
 data_corridors[data_corridors == ".."] = 0
 
 data_corridors[, 7:41] <- sapply(data_corridors[, 7:41], as.numeric)
@@ -22,16 +23,28 @@ data = data_corridors %>% filter(X2020Q3..YR2020Q3. != "..") %>%
   mutate('2017' = (X2017Q1..YR2017Q1. + X2017Q3..YR2017Q3.) / 2) %>%
   mutate('2018' = (X2018Q1..YR2018Q1. + X2018Q3..YR2018Q3.) / 2) %>%
   mutate('2019' = (X2019Q1..YR2019Q1. + X2019Q3..YR2019Q3.) / 2) %>%
-  mutate('2020' = (X2020Q1..YR2020Q1. + X2020Q3..YR2020Q3.) / 2)
+  mutate('2020' = (X2020Q1..YR2020Q1. + X2020Q3..YR2020Q3.) / 2) %>%
+  select(
+    Sending.Countries.Name,
+    Sending.Countries.Code,
+    Receiving.Countries..Name,
+    Receiving.Countries..Code,
+    '2011',
+    '2012',
+    '2013',
+    '2014',
+    '2015',
+    '2016',
+    '2017',
+    '2018',
+    '2019',
+    '2020'
+  )
+data[data == 0] = NA
 
-  # find top 10 send/recieve countries
-  sending_countries = as.data.frame(table(sort(data$Sending.Countries.Name))) %>%
-  arrange(desc(Freq))
 
-receiving_countries = as.data.frame(table(data$Receiving.Countries..Name)) %>%
-  arrange(desc(Freq))
 
-# Tidy DF for GGplot ------------------------------------------------------
+# Tidy DF for GGplot // using year 2019 q3------------------------------------------------------
 data_corridors_min = data_corridors %>%
   select(Sending.Countries.Name,
          Receiving.Countries..Name,
@@ -133,6 +146,7 @@ p = ggplot(df, aes(x = recieve, y = send, fill = bins)) +
     plot.margin = margin(0.7, 0.4, 0.1, 0.2, "cm"),
     plot.title = element_text(
       colour = textcol,
+      family = "KyivType Sans",
       hjust = 0,
       size = 14,
       face = "bold"
