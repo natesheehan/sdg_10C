@@ -1,6 +1,9 @@
 # Librarys ----------------------------------------------------------------
 library(stringr)
 library(tidyverse)
+library(tidygeocoder)
+library(sf)
+library(od)
 
 # Read world bank remitance corridor data ----------------------------------------------------
 #### notes: this data is not avaliable from the WorldBank R oackage WDI
@@ -38,14 +41,60 @@ data = data_corridors %>% filter(X2020Q3..YR2020Q3. != "..") %>%
     '2018',
     '2019',
     '2020'
-  ) %>% gather(year, value, (5:14)) %>% na.omit()
+  ) %>% gather(year, value, (5:14)) %>%
+  na.omit() %>%
+  mutate(sdg_target = as.numeric(value < 5))  %>%
+  mutate(Sending.Countries.Name = str_replace(Sending.Countries.Name, "United States of America", "United States"))  %>%
+  mutate(Sending.Countries.Name = str_replace(Sending.Countries.Name, " Korea, Rep.", "South Korea"))
+
+##### View total SDG Targets
+table(data$sdg_target) # 0 = no 1 = yes
+
+post_sdg = data %>% filter(year >= 2016) %>%
+  filter(sdg_target == 0) ### SDG false
+
+send_sdg =  as.data.frame(table(post_sdg$Sending.Countries.Name)) %>% arrange(desc(Freq))
+rec_sdg =  as.data.frame(table(post_sdg$Receiving.Countries..Name)) %>% arrange(desc(Freq))
+
+summary(post_sdg$value)
+
+# UpperQ
+upperQ = post_sdg %>% filter(value >= 10.198) %>% filter(year == 2016)
+
+# calculate countries
+countries_rec = as.data.frame(upperQ$Receiving.Countries..Name)
+colnames(countries_rec) = "country"
+
+countries_send = as.data.frame(upperQ$Sending.Countries.Name)
+colnames(countries_send) = "country"
+
+countries = rbind(countries_rec,countries_send)
+countries = as.data.frame(unique(countries$country))
+colnames(countries) = "country"
+
+countries = countries %>%
+  geocode(country,
+          method = 'osm', # calculate osm country point
+          lat = latitude ,
+          long = longitude)
+
+countries = st_as_sf(countries, coords = c("longitude","latitude"), crs = "WGS84")
+#Set DF to SF
+countries = st_as_sf(countries)
+st_crs(countries) = "WGS84"
+
+upperQ_sf = upperQ %>% select(Sending.Countries.Name,Receiving.Countries..Name,value)
+desire_lines_od = od_to_sf(upperQ_sf, countries)
+mapview(desire_lines_od)
+
+
+# FUNCTIONS ---------------------------------------------------------------
 
 plot_rec_country = function(country) {
   country_rec_data = data %>%
     filter(Receiving.Countries..Name == country)  %>%
     rename(send = Sending.Countries.Name) %>%
     rename(recieve = Receiving.Countries..Name) %>%
-    mutate(send = str_replace(send, "United States of America", "United States"))  %>%
     mutate(value = ifelse(value < 0, NA, value)) %>%
     mutate(value = as.numeric(value)) %>%
     mutate(
@@ -129,9 +178,9 @@ plot_rec_country = function(country) {
 
   p
 
-}
+} # PLOT 10 YEAR HISTOIRC
 
-plot_rec_country(country = "Peru")
+plot_rec_country(country = "Vanuatu")
 
 
 plot_send_country = function(country) {
@@ -223,8 +272,8 @@ plot_send_country = function(country) {
 
   p
 
-}
-plot_send_country(country = "Portugal")
+} # PLOT 10 YEAR HISTOIRC
+plot_send_country(country = "China")
 
 # rec_countries = as.data.frame(table(data$Receiving.Countries..Name)) %>% arrange(desc(Freq))
 # sending_countries = as.data.frame(table(data$Sending.Countries.Name)) %>% arrange(desc(Freq))
