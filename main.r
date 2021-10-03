@@ -131,7 +131,7 @@ plot_rec_country = function(country) {
 
 }
 
-plot_rec_country(country = "China")
+plot_rec_country(country = "Peru")
 
 
 plot_send_country = function(country) {
@@ -224,7 +224,7 @@ plot_send_country = function(country) {
   p
 
 }
-plot_send_country(country = "Spain")
+plot_send_country(country = "Portugal")
 
 # rec_countries = as.data.frame(table(data$Receiving.Countries..Name)) %>% arrange(desc(Freq))
 # sending_countries = as.data.frame(table(data$Sending.Countries.Name)) %>% arrange(desc(Freq))
