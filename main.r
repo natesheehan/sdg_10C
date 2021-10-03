@@ -40,7 +40,7 @@ data = data_corridors %>% filter(X2020Q3..YR2020Q3. != "..") %>%
     '2020'
   ) %>% gather(year, value, (5:14)) %>% na.omit()
 
-plot_rec_country = function(country){
+plot_rec_country = function(country) {
   country_rec_data = data %>%
     filter(Receiving.Countries..Name == country)  %>%
     rename(send = Sending.Countries.Name) %>%
@@ -82,15 +82,18 @@ plot_rec_country = function(country){
 
   # Plot --------------------------------------------------------------------
   p = ggplot(df, aes(x = send, y = recieve, fill = bins)) +
-    facet_wrap(~year,ncol = 1) +
+    facet_wrap( ~ year, ncol = 1) +
     geom_tile(colour = "black", size = 0.2) +
-    geom_text(aes(label=round(value, digits = 2))) +
+    geom_text(aes(label = round(value, digits = 2))) +
     scale_colour_manual(values = c("red", "blue", "green")) +
     guides(fill = guide_legend(title = "Average cost of sending remittances between countries")) +
     labs(
       x = "Countries Where Remittance is Sent",
       y = "Countries Where Remittance is Received",
-      title = paste0("World Bank Remittance Corridors Data\nCountry Receiving: ",country),
+      title = paste0(
+        "World Bank Remittance Corridors Data\nCountry Receiving: ",
+        country
+      ),
       caption = "Remittance costs vary between sending and receiving country corridors.The SDG target aims to bring all corridor costs to below 5% of the amount remitted."
     ) +
     #coord_fixed()+
@@ -131,7 +134,7 @@ plot_rec_country = function(country){
 plot_rec_country(country = "China")
 
 
-plot_send_country = function(country){
+plot_send_country = function(country) {
   country_rec_data = data %>%
     filter(Sending.Countries.Name == country)  %>%
     rename(send = Sending.Countries.Name) %>%
@@ -173,15 +176,18 @@ plot_send_country = function(country){
 
   # Plot --------------------------------------------------------------------
   p = ggplot(df, aes(x = recieve, y = send, fill = bins)) +
-    facet_wrap(~year,ncol = 1) +
+    facet_wrap( ~ year, ncol = 1) +
     geom_tile(colour = "black", size = 0.2) +
-    geom_text(aes(label=round(value, digits = 2))) +
+    geom_text(aes(label = round(value, digits = 2))) +
     scale_colour_manual(values = c("red", "blue", "green")) +
     guides(fill = guide_legend(title = "Average cost of sending remittances between countries")) +
     labs(
       x = "Countries Where Remittance is Received",
       y = "Countries Where Remittance is Sent",
-      title = paste0("World Bank Remittance Corridors Data\nCountry Sending: ",country),
+      title = paste0(
+        "World Bank Remittance Corridors Data\nCountry Sending: ",
+        country
+      ),
       caption = "Remittance costs vary between sending and receiving country corridors.The SDG target aims to bring all corridor costs to below 5% of the amount remitted."
     ) +
     #coord_fixed()+
