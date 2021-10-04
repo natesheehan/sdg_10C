@@ -30,14 +30,16 @@ if(file.exists("data/countries.RDS")){
             lat = latitude ,
             long = longitude)
 
-  saveRDS(countries, "data/countries.RDS")
+  saveRDS(countries, "data/countries.RDS") # save as rds
 }
 
-countries = st_as_sf(countries, coords = c("longitude","latitude"), crs = "WGS84")
 #Set DF to SF
+countries = st_as_sf(countries, coords = c("longitude","latitude"), crs = "WGS84")
 countries = st_as_sf(countries)
 st_crs(countries) = "WGS84"
 
+# transform data for OD calculation
 upperQ_sf = upperQ %>% select(Sending.Countries.Name,Receiving.Countries..Name,value)
 desire_lines_od = od_to_sf(upperQ_sf, countries)
+#View OD connection
 mapview(desire_lines_od)
