@@ -1,5 +1,12 @@
-##### FUNCTIONS ---------------------------------------------------------------
+#### function variables
+tags = c(" 0-3%",
+         " 3-5%",
+         " 5-10%",
+         "10% and above") # create tags for bin labels
 
+
+
+##### FUNCTIONS ---------------------------------------------------------------
 
 # Plot historic remitance corridor rates set by receiving countries ---------
 plot_rec_country = function(country) {
@@ -43,7 +50,7 @@ plot_rec_country = function(country) {
 
   # Plot --------------------------------------------------------------------
   p = ggplot(df, aes(x = send, y = recieve, fill = bins)) +
-    facet_wrap( ~ year, ncol = 1) +
+    facet_wrap(~ year, ncol = 1) +
     geom_tile(colour = "black", size = 0.2) +
     geom_text(aes(label = round(value, digits = 2))) +
     scale_colour_manual(values = c("red", "blue", "green")) +
@@ -139,7 +146,7 @@ plot_send_country = function(country) {
 
   # Plot --------------------------------------------------------------------
   p = ggplot(df, aes(x = recieve, y = send, fill = bins)) +
-    facet_wrap( ~ year, ncol = 1) +
+    facet_wrap(~ year, ncol = 1) +
     geom_tile(colour = "black", size = 0.2) +
     geom_text(aes(label = round(value, digits = 2))) +
     scale_colour_manual(values = c("red", "blue", "green")) +
