@@ -12,8 +12,12 @@ ggplot(data=data, aes(x = year, y = value)) +
 
 year_av = aggregate( value ~ year, data, mean )
 
-ggplot(data = year_av, aes(x = year, y = value)) +
-  geom_line()
+ggplot(data = data, aes(x = year, y = value,  group = 1)) +
+  geom_point() +
+  geom_smooth() +
+  labs(x = "Year", y = "Percent value of trading $200 (or equivelent in local currency)",
+       title = "Global Remitance Tax Averages") +
+  theme_light()
 
 
 
