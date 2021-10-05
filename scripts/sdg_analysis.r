@@ -3,6 +3,19 @@
 # Aim: Run analysis --------------------
 ####
 ####
+ggplot(data=data, aes(x = year, y = value)) +
+  geom_point(color = "darkorchid4") +
+  labs(title = "Global remitance distribution",
+       subtitle = "Note using pipes",
+       y = "Average (%) of remittance payed through corridor",
+       x = "Year") + theme_bw(base_size = 15)
+
+year_av = aggregate( value ~ year, data, mean )
+
+ggplot(data = year_av, aes(x = year, y = value)) +
+  geom_line()
+
+
 
 post_sdg = data %>% filter(year >= 2016) %>%
   filter(sdg_target == 0) ### SDG false

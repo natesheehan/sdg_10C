@@ -196,7 +196,7 @@ plot_send_country = function(country) {
 }
 
 # test
-plot_send_country(country = "China")
+plot_send_country(country = "Australia")
 
 ##### test code to build a overview map
 
