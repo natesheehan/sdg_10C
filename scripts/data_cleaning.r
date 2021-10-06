@@ -55,8 +55,11 @@ data = data_corridors %>% filter(X2020Q3..YR2020Q3. != "..") %>%
     )
   )  %>%
   mutate(Sending.Countries.Name = str_replace(Sending.Countries.Name,
-                                              " Korea, Rep.",
-                                              "South Korea"))
+                                              "Korea, Rep.",
+                                              "South Korea")) %>%
+  mutate(Receiving.Countries..Name = str_replace(Receiving.Countries..Name,
+                                              "Congo, Dem. Rep",
+                                              "Democratic Republic of the Congo"))
 
 ##### View total SDG Targets
 table(data$sdg_target) # 0 = no 1 = yes
