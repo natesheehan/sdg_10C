@@ -4,6 +4,31 @@
 ####
 ####
 
+#### As ranked by the GermanWatch 2011-2019 climate vulnerable countries index
+climate_vulnerable_countries = c("Puerto Rico",
+                                 "Myanmar",
+                                 "Haiti",
+                                 "Philippines",
+                                 "Mozambique",
+                                 "Bahamas",
+                                 "Bangladesh",
+                                 "Pakistan",
+                                 "Thailand",
+                                 "Nepal")
+
+
+climate_vulnerable_countries_19 = c("Mozambique",
+                                 "Zimbabwe",
+                                 "Bahamas",
+                                 "Japan",
+                                 "Malawi",
+                                 "Afganistan",
+                                 "India",
+                                 "South Sudan",
+                                 "Niger",
+                                 "Boliva")
+
+
 year_av = aggregate(value ~ year, data, mean)
 
 library(hrbrthemes)
@@ -17,7 +42,7 @@ ggplot(data = data, aes(x = year, y = value,  group = 1)) +
            label = "------- 3%") +
   labs(
     x = "Year",
-    y = "Percent value of trading $200 (or equivelent in local currency)",
+    y = "Remitance percent value of send $200 (or equivelent in local currency)",
     title = "Global Remitance Corridors Tax Averages",
     subtitle = "Data from the World bank records X countries in its World Wide Remittance Database"
   ) + theme_modern_rc()
