@@ -100,7 +100,7 @@ plot_rec_country = function(country) {
 }
 
 # test
-plot_rec_country(country = "Haiti")
+plot_rec_country(country = "Lebanon")
 
 
 # Plot historic remitance corridor rates set by sending countries ---------
