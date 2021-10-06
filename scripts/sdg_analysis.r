@@ -6,6 +6,8 @@
 
 year_av = aggregate(value ~ year, data, mean)
 
+library(hrbrthemes)
+
 ggplot(data = data, aes(x = year, y = value,  group = 1)) +
   geom_point() +
   geom_smooth() +
@@ -18,8 +20,7 @@ ggplot(data = data, aes(x = year, y = value,  group = 1)) +
     y = "Percent value of trading $200 (or equivelent in local currency)",
     title = "Global Remitance Corridors Tax Averages",
     subtitle = "Data from the World bank records X countries in its World Wide Remittance Database"
-  ) +
-  theme_modern_rc()
+  ) + theme_modern_rc()
 
 
 
@@ -70,7 +71,7 @@ st_crs(countries) = "WGS84"
 upperQ_sf = upperQ %>% select(Sending.Countries.Name, Receiving.Countries..Name, value)
 desire_lines_od = od_to_sf(upperQ_sf, countries)
 
-
+library(mapview)
 #View OD connection
 mapview(desire_lines_od)
 

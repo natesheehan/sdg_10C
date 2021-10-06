@@ -52,8 +52,8 @@ plot_rec_country = function(country) {
   p = ggplot(df, aes(x = send, y = recieve, fill = bins)) +
     facet_wrap(~ year, ncol = 1) +
     geom_tile(colour = "black", size = 0.2) +
-    geom_text(aes(label = round(value, digits = 2))) +
-    scale_colour_manual(values = c("red", "blue", "green")) +
+    geom_text(aes(label = round(value, digits = 2)),colour = "white") +
+    scale_colour_manual(values = c("pink", "blue", "green","red")) +
     guides(fill = guide_legend(title = "Average cost of sending remittances between countries")) +
     labs(
       x = "Countries Where Remittance is Sent",
@@ -142,14 +142,14 @@ plot_send_country = function(country) {
     filter(complete.cases(send))
 
   # text col
-  textcol = "grey40"
+  textcol = "black"
 
   # Plot --------------------------------------------------------------------
   p = ggplot(df, aes(x = recieve, y = send, fill = bins)) +
     facet_wrap(~ year, ncol = 1) +
     geom_tile(colour = "black", size = 0.2) +
-    geom_text(aes(label = round(value, digits = 2))) +
-    scale_colour_manual(values = c("red", "blue", "green")) +
+    geom_text(aes(label = round(value, digits = 2)), colour = c("white")) +
+    scale_colour_manual(values = c("green", "red", "blue")) +
     guides(fill = guide_legend(title = "Average cost of sending remittances between countries")) +
     labs(
       x = "Countries Where Remittance is Received",
