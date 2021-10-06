@@ -33,7 +33,7 @@ year_av = aggregate(value ~ year, data, mean)
 
 library(hrbrthemes)
 
-ggplot(data = data, aes(x = year, y = value,  group = 1)) +
+ggplot(data = na.omit(data), aes(x = year, y = value,  group = 1)) +
   geom_point() +
   geom_smooth() +
   annotate("text",
@@ -60,6 +60,7 @@ summary(post_sdg$value)
 
 # UpperQ
 upperQ = post_sdg %>% filter(value >= 10.198) %>% filter(year == 2020)
+lowerQ = post_sdg %>% filter(value <= 10.198) %>% filter(year == 2020)
 
 # calculate countries
 countries_rec = as.data.frame(upperQ$Receiving.Countries..Name)
@@ -142,7 +143,7 @@ upperQ_sf = upperQ %>%
 mapdeck(token = key,
         style = mapdeck_style("light"),
         pitch = 45) %>%
-  add_arc(
+  add_line(
     data = upperQ_sf
     ,
     layer_id = "arc_layer"
@@ -150,12 +151,6 @@ mapdeck(token = key,
     origin = c("long_send", "lat_send")
     ,
     destination = c("long_rec", "lat_rec")
-    ,
-    stroke_from = "Sending.Countries.Name"
-    ,
-    stroke_to = "Receiving.Countries..Name"
-    ,
-    stroke_width = "value"
     ,
     legend = TRUE
     ,
