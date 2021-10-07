@@ -9,6 +9,7 @@ pkgs = c("od", # generate OD lines
          "tidyverse", # for data cleaning
          "stringr", # for string manipulation
          "tidygeocoder", # OSM api used to calculate OD between corridors
+         "hrbrthemes", # ggplot themes
          "sf" ) # simple feature handling
 
 # Install pkgs not yet installed

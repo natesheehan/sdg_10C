@@ -5,31 +5,59 @@
 ####
 
 #### As ranked by the GermanWatch 2011-2019 climate vulnerable countries index
-climate_vulnerable_countries = c("Puerto Rico",
-                                 "Myanmar",
-                                 "Haiti",
-                                 "Philippines",
-                                 "Mozambique",
-                                 "Bahamas",
-                                 "Bangladesh",
-                                 "Pakistan",
-                                 "Thailand",
-                                 "Nepal")
+climate_vulnerable_countries = c(
+  "Puerto Rico",
+  "Myanmar",
+  "Haiti",
+  "Philippines",
+  "Mozambique",
+  "Bahamas",
+  "Bangladesh",
+  "Pakistan",
+  "Thailand",
+  "Nepal"
+)
 
 
-climate_vulnerable_countries_19 = c("Mozambique",
-                                 "Zimbabwe",
-                                 "Bahamas",
-                                 "Japan",
-                                 "Malawi",
-                                 "Afganistan",
-                                 "India",
-                                 "South Sudan",
-                                 "Niger",
-                                 "Boliva")
+climate_vulnerable_countries_19 = c(
+  "Mozambique",
+  "Zimbabwe",
+  "Bahamas",
+  "Japan",
+  "Malawi",
+  "Afganistan",
+  "India",
+  "South Sudan",
+  "Niger",
+  "Boliva"
+)
 
 
 year_av = aggregate(value ~ year, data, mean)
+
+# calculate countries
+countries_rec = as.data.frame(data$Receiving.Countries..Name)
+colnames(countries_rec) = "country"
+
+countries_send = as.data.frame(data$Sending.Countries.Name)
+colnames(countries_send) = "country"
+
+countries = rbind(countries_rec, countries_send) %>%
+  count(country) %>%
+  arrange(desc(n)) %>%
+  geocode(country,
+          method = 'osm',
+          # calculate osm country point
+          lat = latitude ,
+          long = longitude)
+
+#Set DF to SF
+countries = st_as_sf(countries,
+                     coords = c("longitude", "latitude"),
+                     crs = "+proj=robin")
+
+qtm(countries)
+
 
 library(hrbrthemes)
 
@@ -49,29 +77,24 @@ ggplot(data = na.omit(data), aes(x = year, y = value,  group = 1)) +
 
 
 
-post_sdg = data %>% filter(year >= 2016) %>%
-  filter(sdg_target == 0) ### SDG false
-
-# frequency tables
+post_sdg = data %>% filter(year >= 2016)
+hist(post_sdg$value)
+summary(post_sdg$value)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+# 0.075   4.808   6.626   7.382   9.175  26.971
+# frequency tables total
 send_sdg =  as.data.frame(table(post_sdg$Sending.Countries.Name)) %>% arrange(desc(Freq))
 rec_sdg =  as.data.frame(table(post_sdg$Receiving.Countries..Name)) %>% arrange(desc(Freq))
 
+upperQ = post_sdg %>% filter(value >= 9.175) %>% filter(year == 2020) %>% arrange((value))
+lowerQ = post_sdg %>% filter(value <= 4.808) %>% filter(year == 2020) %>% arrange((value))
+
+
+post_sdg = data %>% filter(year >= 2016) %>% filter(sdg_target == 0)
 summary(post_sdg$value)
 
 # UpperQ
-upperQ = post_sdg %>% filter(value >= 10.198) %>% filter(year == 2020)
-lowerQ = post_sdg %>% filter(value <= 10.198) %>% filter(year == 2020)
 
-# calculate countries
-countries_rec = as.data.frame(upperQ$Receiving.Countries..Name)
-colnames(countries_rec) = "country"
-
-countries_send = as.data.frame(upperQ$Sending.Countries.Name)
-colnames(countries_send) = "country"
-
-countries = rbind(countries_rec, countries_send)
-countries = as.data.frame(unique(countries$country))
-colnames(countries) = "country"
 
 if (file.exists("data/countries.RDS")) {
   countries = readRDS("data/countries.RDS")

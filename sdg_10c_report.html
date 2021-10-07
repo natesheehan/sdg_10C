@@ -11,7 +11,6 @@
 
 <meta name="author" content="Emily Robinson, Nathanael Sheehan, Owain Harris" />
 
-<meta name="date" content="2021-05-10" />
 
 <title>SDG 10.C</title>
 
@@ -167,18 +166,20 @@ pre code {
 
 <h1 class="title toc-ignore">SDG 10.C</h1>
 <h4 class="author">Emily Robinson, Nathanael Sheehan, Owain Harris</h4>
-<h4 class="date">05/10/2021</h4>
 
 </div>
 
 
-<div id="r-data-analysis" class="section level2">
-<h2>R Data analysis</h2>
-<p>The analysis presented in this report addresses an underrepresented understanding of research and dialogue on global remittance corridors and their effect on the global economic climate. Through following an anti naturalist methodology, our analysis does not seek to explain the social human phenomenon of migrant capital exchange simply through the causal dependence of social reality representation, nor does it wish to exploit the privacy concerns of highly aggregated data which in its purest form is tremendously sensitive, instead, the analysis aims to build a dialogue around climate vulnerable countries and their digital manifestation in open data from the private sector, and the impacts this has on the Sustainable Development Goals policy framework.</p>
-<p>As previously stated, there are two components of SDG 10.C, as delineated in the SDG metadata, the first component states “transaction costs for migrant remittances should be 3% or less by 2030”. Here, a transaction is defined as “Global average total cost of sending $200 (or equivalent in local sending currency) and expressed as % of amount sent” . The second component is to eliminate corridors “where cost is 5% or higher”, meaning that it should be possible for remittance senders to send capital to the “beneficiary for an average cost of 5% or less of the amount sent”.</p>
+<div id="r-data-analysis" class="section level1">
+<h1>R Data analysis</h1>
+<div id="background-and" class="section level2">
+<h2>Background and</h2>
+<p>The analysis presented in this report addresses an underrepresented understanding of research and dialogue on global remittance corridors and their effect on the global economic climate. Through following an anti naturalist methodology, our analysis does not seek to explain the social human phenomenon of migrant capital exchange simply through the causal dependence of social reality representation, nor does it wish to exploit the privacy concerns of highly aggregated data which in its purest form is tremendously sensitive, instead, the analysis aims to build a dialogue around climate vulnerable countries and their digital manifestation in open data from intergovernmental organizations, and the impacts this has on the Sustainable Development Goals policy framework.</p>
+<p>As previously stated, there are two components to SDG 10.C, the former being the reduction of global remittance cost to 3% and the latter being the reduction of average cost to 5%. To monitor this economic science, the World Bank has assembled the largest remittance database, which includes 141 unique countries and their remittance corridor rates based on the World Banks “Mystery shopping” methodology [REF BLOG POST].</p>
 </div>
 <div id="library-installation" class="section level2">
 <h2>Library Installation</h2>
+<p>The following analysis uses several open R packages in order to</p>
 <pre class="r"><code>####
 ####
 # Aim: Install and load packages required for analysis --------------------
@@ -265,6 +266,7 @@ data = data_corridors %&gt;% filter(X2020Q3..YR2020Q3. != &quot;..&quot;) %&gt;%
 
 ##### View total SDG Targets
 table(data$sdg_target) # 0 = no 1 = yes</code></pre>
+</div>
 </div>
 
 
