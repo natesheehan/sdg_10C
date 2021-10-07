@@ -15,12 +15,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The analysis presented in this report addresses an underrepresented understanding of research and dialogue on global remittance corridors and their effect on the global economic climate. Through following an anti naturalist methodology, our analysis does not seek to explain the social human phenomenon of migrant capital exchange simply through the causal dependence of social reality representation, nor does it wish to exploit the privacy concerns of highly aggregated data which in its purest form is tremendously sensitive, instead, the analysis aims to build a dialogue around climate vulnerable countries and their digital manifestation in open data from intergovernmental organizations, and the impacts this has on the Sustainable Development Goals policy framework. 
 
-As previously stated, there are two components to SDG 10.C, the former being the reduction of global remittance cost to 3% and the latter being the reduction of average cost to 5%. To monitor this economic science, the World Bank has assembled the largest remittance database, which includes 141 unique countries and their remittance corridor rates based on the World Banks “Mystery shopping” methodology [REF BLOG POST].
+As previously stated, there are two components to SDG 10.C, the former being the reduction of global remittance cost to 3% and the latter being the reduction of average cost to 5%. To monitor this economic science, the World Bank has assembled the largest remittance database, which includes 131 unique countries and their remittance corridor rates based on the World Banks “Mystery shopping” methodology [REF BLOG POST].
+
+The two research questions guiding this analysis are:
+
+- What is the current global state of SDG 10.C?
+- How are climate vulnerable countries represented in the existing data?
 
 
 ## Library Installation
 
-The following analysis uses several open R packages in order to 
+To conduct the analysis, the following packages were utilised for data cleaning,transformation and visualization: 
 ```{r eval=FALSE}
 ####
 ####
@@ -47,10 +52,9 @@ invisible(lapply(pkgs, library, character.only = TRUE))
 
 ```
 
-
-
-
 ## Data Tidying
+
+The analysis of the data cannot be done without tidying the data. The [data](https://databank.worldbank.org/source/remittance-prices-worldwide-(corridors)) provided by the 
 ```{r eval=FALSE}
 ####
 ####

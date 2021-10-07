@@ -33,12 +33,13 @@ climate_vulnerable_countries_19 = c(
 )
 
 
+# Calculate and visualise year_average ------------------------------------
 year_av = aggregate(value ~ year, data, mean)
+kableExtra::kable(year_av) %>% kableExtra::kable_material_dark()
 
-# calculate countries
+# join send/receive countries together and fetch centroid point
 countries_rec = as.data.frame(data$Receiving.Countries..Name)
 colnames(countries_rec) = "country"
-
 countries_send = as.data.frame(data$Sending.Countries.Name)
 colnames(countries_send) = "country"
 
@@ -51,13 +52,16 @@ countries = rbind(countries_rec, countries_send) %>%
           lat = latitude ,
           long = longitude)
 
-n_countries = nrow(countries)
 #Set DF to SF
 countries = st_as_sf(countries,
                      coords = c("longitude", "latitude"),
                      crs = "wsg84")
 
+# set number of countries as the count of rows
+n_countries = nrow(countries)
 
+
+# Plot total data ---------------------------------------------------------
 ggplot(data = na.omit(data), aes(x = year, y = value,  group = 1)) +
   geom_point() +
   geom_smooth() +
@@ -90,9 +94,8 @@ lowerQ = post_sdg %>% filter(value <= 4.808) %>% filter(year == 2020) %>% arrang
 post_sdg = data %>% filter(year >= 2016) %>% filter(sdg_target == 0)
 summary(post_sdg$value)
 
-# UpperQ
 
-
+# Visualise network of upper and lower Q ----------------------------------
 if (file.exists("data/countries.RDS")) {
   countries = readRDS("data/countries.RDS")
 } else {
@@ -141,42 +144,3 @@ tm_basemap(leaflet::providers$Stamen.TonerLite) +
             legend.bg.color = "white")
 
 
-library(mapdeck)
-
-key = "pk.eyJ1IjoibmF0aGFuYWVsaXNhbWFwcGVyIiwiYSI6ImNrODNiZzdoZTA4Y2gzZ281YmJiMHNwOWIifQ.d2ntY86sJ7DR7011dUJ2cw"
-set_token(key)
-
-upperQ_sf = upperQ %>%
-  geocode(
-    Sending.Countries.Name,
-    method = "osm",
-    lat = lat_send,
-    long = long_send
-  ) %>%
-  geocode(
-    Receiving.Countries..Name,
-    method = "osm",
-    lat = lat_rec,
-    long = long_rec
-  )
-
-mapdeck(token = key,
-        style = mapdeck_style("light"),
-        pitch = 45) %>%
-  add_line(
-    data = upperQ_sf
-    ,
-    layer_id = "arc_layer"
-    ,
-    origin = c("long_send", "lat_send")
-    ,
-    destination = c("long_rec", "lat_rec")
-    ,
-    legend = TRUE
-    ,
-    legend_options = list(
-      stroke_width = list(title = "Value", digits = 3)
-      ,
-      css = "max-height: 100px;" ## css applied to both stroke_from and stroke_to
-    )
-  )

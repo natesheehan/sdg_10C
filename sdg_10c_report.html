@@ -175,11 +175,16 @@ pre code {
 <div id="background-and" class="section level2">
 <h2>Background and</h2>
 <p>The analysis presented in this report addresses an underrepresented understanding of research and dialogue on global remittance corridors and their effect on the global economic climate. Through following an anti naturalist methodology, our analysis does not seek to explain the social human phenomenon of migrant capital exchange simply through the causal dependence of social reality representation, nor does it wish to exploit the privacy concerns of highly aggregated data which in its purest form is tremendously sensitive, instead, the analysis aims to build a dialogue around climate vulnerable countries and their digital manifestation in open data from intergovernmental organizations, and the impacts this has on the Sustainable Development Goals policy framework.</p>
-<p>As previously stated, there are two components to SDG 10.C, the former being the reduction of global remittance cost to 3% and the latter being the reduction of average cost to 5%. To monitor this economic science, the World Bank has assembled the largest remittance database, which includes 141 unique countries and their remittance corridor rates based on the World Banks “Mystery shopping” methodology [REF BLOG POST].</p>
+<p>As previously stated, there are two components to SDG 10.C, the former being the reduction of global remittance cost to 3% and the latter being the reduction of average cost to 5%. To monitor this economic science, the World Bank has assembled the largest remittance database, which includes 131 unique countries and their remittance corridor rates based on the World Banks “Mystery shopping” methodology [REF BLOG POST].</p>
+<p>The two research questions guiding this analysis are:</p>
+<ul>
+<li>What is the current global state of SDG 10.C?</li>
+<li>How are climate vulnerable countries represented in the existing data?</li>
+</ul>
 </div>
 <div id="library-installation" class="section level2">
 <h2>Library Installation</h2>
-<p>The following analysis uses several open R packages in order to</p>
+<p>To conduct the analysis, the following packages were utilised for data cleaning,transformation and visualization:</p>
 <pre class="r"><code>####
 ####
 # Aim: Install and load packages required for analysis --------------------
@@ -204,6 +209,7 @@ invisible(lapply(pkgs, library, character.only = TRUE))</code></pre>
 </div>
 <div id="data-tidying" class="section level2">
 <h2>Data Tidying</h2>
+<p>The analysis of the data cannot be done without tidying the data. The <a href="https://databank.worldbank.org/source/remittance-prices-worldwide-(corridors)">data</a> provided by the</p>
 <pre class="r"><code>####
 ####
 # Aim: Read, clean and document data from the World Bank for analysis --------------------
