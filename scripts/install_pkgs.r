@@ -10,7 +10,9 @@ pkgs = c("od", # generate OD lines
          "stringr", # for string manipulation
          "tidygeocoder", # OSM api used to calculate OD between corridors
          "hrbrthemes", # ggplot themes
-         "sf" ) # simple feature handling
+         "sf",
+         "tmap",
+         "mapview") # simple feature handling
 
 # Install pkgs not yet installed
 installed_packages = pkgs %in% rownames(installed.packages())

@@ -54,7 +54,10 @@ invisible(lapply(pkgs, library, character.only = TRUE))
 
 ## Data Tidying
 
-The analysis of the data cannot be done without tidying the data. The [data](https://databank.worldbank.org/source/remittance-prices-worldwide-(corridors)) provided by the 
+The raw [data](https://databank.worldbank.org/source/remittance-prices-worldwide-(corridors)) provided by the World Bank is by no means clean/tidy data, and any form of analysis cannot be complete without tidying this data into a machine readable format. The statistical results of a data quality diagnosis can be found in our analysis [repository](https://github.com/natesheehan/sdg_10C/blob/main/data/wb_data_quality.csv). 
+
+The data is cleaned by renaming column names and countries (so the geocoder API can function), converting characters into numeric, averaging time series data and producing a long data format. 
+
 ```{r eval=FALSE}
 ####
 ####
@@ -120,3 +123,7 @@ data = data_corridors %>% filter(X2020Q3..YR2020Q3. != "..") %>%
 table(data$sdg_target) # 0 = no 1 = yes
 
 ```
+
+
+## Summary statistics 
+
