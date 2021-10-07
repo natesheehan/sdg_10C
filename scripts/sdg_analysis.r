@@ -109,9 +109,11 @@ summary(post_sdg$value)
 # 0.075   4.808   6.626   7.382   9.175  26.971
 upperQ = post_sdg %>% filter(value >= 9.175) %>% filter(year == 2020) %>% arrange((value))
 upperq_share = upperQ %>% group_by(Sending.Countries.Name) %>% tally() %>% arrange(desc(n)) %>% rename(country = Sending.Countries.Name)
-
+right_join(upperq_share,cvc)
 
 lowerQ = post_sdg %>% filter(value <= 4.808) %>% filter(year == 2020) %>% arrange((value))
+lowerq_share = lowerQ %>% group_by(Sending.Countries.Name) %>% tally() %>% arrange(desc(n)) %>% rename(country = Sending.Countries.Name)
+right_join(lowerq_share,cvc)
 
 # post_sdg = data %>% filter(year >= 2016) %>% filter(sdg_target == 0)
 # summary(post_sdg$value)
@@ -150,11 +152,6 @@ lowerrQ_sf_od = od_to_sf(lowerQ_sf, countries)
 
 mapview::mapview(lowerrQ_sf_od)
 
-
-library(mapview)
-#View OD connection
-
-library(tmap)
 tmap_mode("view")
 tm_basemap(leaflet::providers$Stamen.TonerLite) +
   tm_shape(lowerrQ_sf_od) +
