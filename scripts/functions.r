@@ -100,7 +100,7 @@ plot_rec_country = function(country) {
 }
 
 # test
-plot_rec_country(country = "Thailand")
+plot_rec_country(country = "Haiti")
 
 
 # Plot historic remitance corridor rates set by sending countries ---------
@@ -196,7 +196,7 @@ plot_send_country = function(country) {
 }
 
 # test
-plot_send_country(country = "Australia")
+plot_send_country(country = "France")
 
 ##### test code to build a overview map
 
