@@ -51,15 +51,12 @@ countries = rbind(countries_rec, countries_send) %>%
           lat = latitude ,
           long = longitude)
 
+n_countries = nrow(countries)
 #Set DF to SF
 countries = st_as_sf(countries,
                      coords = c("longitude", "latitude"),
-                     crs = "+proj=robin")
+                     crs = "wsg84")
 
-qtm(countries)
-
-
-library(hrbrthemes)
 
 ggplot(data = na.omit(data), aes(x = year, y = value,  group = 1)) +
   geom_point() +
@@ -70,9 +67,9 @@ ggplot(data = na.omit(data), aes(x = year, y = value,  group = 1)) +
            label = "------- 3%") +
   labs(
     x = "Year",
-    y = "Remitance percent value of send $200 (or equivelent in local currency)",
+    y = "Remitance percent value of sending $200 (or equivelent in local currency)",
     title = "Global Remitance Corridors Tax Averages",
-    subtitle = "Data from the World bank records X countries in its World Wide Remittance Database"
+    subtitle = paste0("Data from the World bank records ",n_countries," countries in its World Wide Remittance Database")
   ) + theme_modern_rc()
 
 

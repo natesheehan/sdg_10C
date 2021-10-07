@@ -11,6 +11,8 @@
 data_corridors = read.csv("data/36d1ed87-9a2d-41da-8eac-c1c25d45fa65_Data.csv") # local path
 colnames(data_corridors)[1] = "Sending.Countries.Name" # rename column because its called some funky shit
 
+data_quality = diagnose(data_corridors) # data quality test
+
 data_corridors[data_corridors == ".."] = NA # convert .. missing values to NA
 
 data_corridors[, 7:41] = sapply(data_corridors[, 7:41], as.numeric) # convert data corridor values to numeric
