@@ -12,6 +12,7 @@ data_corridors = read.csv("data/36d1ed87-9a2d-41da-8eac-c1c25d45fa65_Data.csv") 
 colnames(data_corridors)[1] = "Sending.Countries.Name" # rename column because its called some funky shit
 
 data_quality = diagnose(data_corridors) # data quality test
+write.csv(data_quality,"data/wb_data_quality.csv")
 
 data_corridors[data_corridors == ".."] = NA # convert .. missing values to NA
 
