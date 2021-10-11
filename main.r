@@ -7,5 +7,5 @@ source("scripts/data_cleaning.r")
 # Run SDG maps analysis ---------------------------------------------------
 source("scripts/sdg_analysis.r")
 
-# Run functions for historical remitance ----------------------------------
+# Run functions for historical remittance ----------------------------------
 source("scripts/functions.r")

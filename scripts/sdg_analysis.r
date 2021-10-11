@@ -42,12 +42,17 @@ cvc = rbind(climate_vulnerable_countries,climate_vulnerable_countries_19)
 cvc = as.data.frame(unique(cvc$country))
 colnames(cvc) = "country"
 
-cvc = cvc %>%
-  geocode(country,
-          method = 'osm', # calculate osm country point
-          lat = latitude ,
-          long = longitude)
-
+if(file.exists("data/cvc.RDS")){
+  cvc = readRDS("data/cvc.RDS")
+} else {
+  cvc = cvc %>%
+    geocode(country,
+            method = 'osm', # calculate osm country point
+            lat = latitude ,
+            long = longitude)
+  #write rds for time saving
+  saveRDS(cvc,"data/cvc.RDS")
+}
 
 # Calculate and visualise year_average ------------------------------------
 year_av = aggregate(value ~ year, data, mean)
@@ -59,20 +64,25 @@ colnames(countries_rec) = "country"
 countries_send = as.data.frame(data$Sending.Countries.Name)
 colnames(countries_send) = "country"
 
-countries = rbind(countries_rec, countries_send) %>%
-  count(country) %>%
-  arrange(desc(n)) %>%
-  geocode(country,
-          method = 'osm',
-          # calculate osm country point
-          lat = latitude ,
-          long = longitude)
+if(file.exists("data/countries_all.RDS")){
+  countries = read_rds("data/countries_all.RDS")
+} else{
+  countries = rbind(countries_rec, countries_send) %>%
+    count(country) %>%
+    arrange(desc(n)) %>%
+    geocode(country,
+            method = 'osm',
+            # calculate osm country point
+            lat = latitude ,
+            long = longitude)
 
-#Set DF to SF
-countries = st_as_sf(countries,
-                     coords = c("longitude", "latitude"),
-                     crs = "wsg84")
+  # set DF to SF
+  countries = st_as_sf(countries,
+                       coords = c("longitude", "latitude"),
+                       crs = "wsg84")
 
+  saveRDS(countries,"data/countries_all.RDS")
+}
 # set number of countries as the count of rows
 n_countries = nrow(countries)
 
@@ -151,38 +161,3 @@ lowerQ_sf = lowerQ %>% select(Sending.Countries.Name, Receiving.Countries..Name,
 lowerrQ_sf_od = od_to_sf(lowerQ_sf, countries)
 
 mapview::mapview(lowerrQ_sf_od,map.types = c("Esri.WorldShadedRelief", "OpenStreetMap.DE"), zcol = "value", legend = TRUE)
-
-tmap_mode("view")
-tm_basemap(leaflet::providers$Stamen.TonerLite) +
-  tm_shape(lowerrQ_sf_od) +
-  tm_lines(
-    palette = "plasma",
-    breaks = c(0, 1, 2, 3, 4, 5),
-    lwd = "value",
-    scale = 9,
-    title.lwd = "%",
-    alpha = 0.5,
-    col = "value",
-    title = "Remittance value (%)",
-    legend.lwd.show = TRUE
-  ) +
-  tm_scale_bar() +
-  tm_layout(legend.bg.alpha = 0.5,
-            legend.bg.color = "white")
-
-tm_basemap(leaflet::providers$Stamen.TonerLite) +
-  tm_shape(upperQ_sf_od) +
-  tm_lines(
-    palette = "plasma",
-    breaks = c(9, 11, 13, 15, 17, 19, 30),
-    lwd = "value",
-    scale = 9,
-    title.lwd = "%",
-    alpha = 0.5,
-    col = "value",
-    title = "Remittance value (%)",
-    legend.lwd.show = TRUE
-  ) +
-  tm_scale_bar() +
-  tm_layout(legend.bg.alpha = 0.5,
-            legend.bg.color = "white")
