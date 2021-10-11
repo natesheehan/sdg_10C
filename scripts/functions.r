@@ -78,7 +78,7 @@ plot_rec_country = function(country) {
       legend.key.height = grid::unit(0.4, "cm"),
       legend.key.width = grid::unit(0.8, "cm"),
       axis.text.x = element_text(size = 10, colour = textcol),
-      axis.text.y = element_text(vjust = 0.2, colour = textcol),
+      axis.text.y = element_text(vjust = 0.2,size = 0, colour = textcol),
       axis.ticks = element_line(size = 0.4),
       plot.background = element_blank(),
       panel.border = element_blank(),
@@ -100,8 +100,7 @@ plot_rec_country = function(country) {
 }
 
 # test
-plot_rec_country(country = "Haiti")
-
+plot_rec_country(country = "Vanuatu")
 
 # Plot historic remitance corridor rates set by sending countries ---------
 plot_send_country = function(country) {
@@ -196,7 +195,7 @@ plot_send_country = function(country) {
 }
 
 # test
-plot_send_country(country = "France")
+plot_send_country(country = "United Kingdom")
 
 ##### test code to build a overview map
 
@@ -280,7 +279,7 @@ plot_cvc = function(data_corridors){
       x = "Countries Where Capital is Received",
       y = "Countries Where Capital is Sent",
       title = "2020 Remittance Rates for Climate Vulnerable Countries",
-      caption = "Remittance costs vary between sending and receiving country corridors.The SDG target aims to bring all corridor costs to below 5% of the amount remitted.\nRemittance Data comes from the World Banks's "
+      caption = "Remittance costs vary between sending and receiving country corridors.The SDG target aims to bring all corridor costs to below 5% of the amount remitted.\nRemittance Data: World Bank Remittance Database"
     ) +
     #coord_fixed()+
     theme_dark(base_size = 10) +

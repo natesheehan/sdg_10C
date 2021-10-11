@@ -97,22 +97,22 @@ ggplot(data = na.omit(data), aes(x = year, y = value,  group = 1)) +
   ) + theme_modern_rc()
 
 
+post_sdg = data %>% filter(year >= 2016)
 
 # frequency tables total
 send_sdg =  as.data.frame(table(post_sdg$Sending.Countries.Name)) %>% arrange(desc(Freq))
 rec_sdg =  as.data.frame(table(post_sdg$Receiving.Countries..Name)) %>% arrange(desc(Freq))
 
-post_sdg = data %>% filter(year >= 2016)
 hist(post_sdg$value, main = "Histogram of Post SDG (2016) Remittance Values", xlab = "value (%)")
 summary(post_sdg$value)
 #   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
 # 0.075   4.808   6.626   7.382   9.175  26.971
 upperQ = post_sdg %>% filter(value >= 9.175) %>% filter(year == 2020) %>% arrange((value))
-upperq_share = upperQ %>% group_by(Sending.Countries.Name) %>% tally() %>% arrange(desc(n)) %>% rename(country = Sending.Countries.Name)
+upperq_share = upperQ %>% group_by(Receiving.Countries..Name) %>% tally() %>% arrange(desc(n)) %>% rename(country = Receiving.Countries..Name)
 right_join(upperq_share,cvc)
 
 lowerQ = post_sdg %>% filter(value <= 4.808) %>% filter(year == 2020) %>% arrange((value))
-lowerq_share = lowerQ %>% group_by(Sending.Countries.Name) %>% tally() %>% arrange(desc(n)) %>% rename(country = Sending.Countries.Name)
+lowerq_share = lowerQ %>% group_by(Receiving.Countries..Name) %>% tally() %>% arrange(desc(n)) %>% rename(country = Receiving.Countries..Name)
 right_join(lowerq_share,cvc)
 
 # post_sdg = data %>% filter(year >= 2016) %>% filter(sdg_target == 0)
@@ -145,12 +145,12 @@ mapview::mapview(countries)
 upperQ_sf = upperQ %>% select(Sending.Countries.Name, Receiving.Countries..Name, value)
 upperQ_sf_od = od_to_sf(upperQ_sf, countries)
 
-mapview::mapview(upperQ_sf_od)
+mapview::mapview(upperQ_sf_od,map.types = c("Esri.WorldShadedRelief", "OpenStreetMap.DE"), zcol = "value", legend = TRUE)
 
 lowerQ_sf = lowerQ %>% select(Sending.Countries.Name, Receiving.Countries..Name, value)
 lowerrQ_sf_od = od_to_sf(lowerQ_sf, countries)
 
-mapview::mapview(lowerrQ_sf_od)
+mapview::mapview(lowerrQ_sf_od,map.types = c("Esri.WorldShadedRelief", "OpenStreetMap.DE"), zcol = "value", legend = TRUE)
 
 tmap_mode("view")
 tm_basemap(leaflet::providers$Stamen.TonerLite) +
