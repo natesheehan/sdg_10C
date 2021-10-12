@@ -1,6 +1,6 @@
 # SDG Group 3
 
-- Nathanael Sheehan
+- Nathanael
 - Emily 
 - Owain
 
