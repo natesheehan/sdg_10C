@@ -11,8 +11,7 @@ pkgs = c("od", # generate OD lines
          "tidygeocoder", # OSM api used to calculate OD between corridors
          "hrbrthemes", # ggplot themes
          "sf", # simple feature handling
-         "tmap", # viz
-         "mapview",# viz
+         "mapview",# cartographic viz
          "dlookr") # data quality
 
 # Install pkgs not yet installed
