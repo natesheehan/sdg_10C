@@ -21,7 +21,7 @@ climate_vulnerable_countries = as.data.frame(
 )
 colnames(climate_vulnerable_countries) = "country"
 
-# 2019 list
+# 2020 list
 climate_vulnerable_countries_19 = as.data.frame(
   c(
     "Mozambique",

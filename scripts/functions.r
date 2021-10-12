@@ -206,12 +206,9 @@ plot_send_country(country = "United Kingdom")
 #
 # # Tidy DF for GGplot // using year 2020 q3------------------------------------------------------
 plot_cvc = function(data_corridors){
-  data_corridors_min = data_corridors %>%
+  data_corridors_min = data %>%
     select(Sending.Countries.Name,
-           Receiving.Countries..Name,
-           X2020Q3..YR2020Q3.) %>%
-    filter(X2020Q3..YR2020Q3. != "..") %>%
-    rename(value = X2020Q3..YR2020Q3.) %>%
+           Receiving.Countries..Name, value, year) %>%
     rename(send = Sending.Countries.Name) %>%
     rename(recieve = Receiving.Countries..Name) %>%
     mutate(send = str_replace(send, "United States of America", "United States"))  %>%
